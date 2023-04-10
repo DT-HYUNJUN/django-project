@@ -7,6 +7,7 @@ KDT-2기 풀스택 미니 프로젝트
 
 # Bug Report
 
-> 글 작성시 notice를 체크해야만 작성이 되던 버그 수정
+- 2023-04-11
+  > 글 작성시 공지 글 체크박스를 체크해야만 작성이 되던 버그 수정
 
-- PostForm에 required=False를 추가하여 해결
+  PostForm에 required=False를 추가하여 해결
