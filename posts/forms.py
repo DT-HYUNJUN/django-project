@@ -38,6 +38,7 @@ class PostForm(forms.ModelForm):
     )
     notice = forms.BooleanField(
         label='공지글',
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
                 'type': 'checkbox',
