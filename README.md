@@ -25,9 +25,18 @@ KDT-2기 풀스택 미니 프로젝트
 
 <img src="https://img.shields.io/badge/DISCORD-5865F2?style=for-the-badge&logo=DISCORD&logoColor=white">
 
+# Updates
+
+- 2023-04-12
+  
+  > 프로필 이미지 업로드/삭제 기능 구현
+
+  *User 모델에 image필드 추가*
+
+
 # Bug Report
 
 - 2023-04-11
   > 글 작성시 공지 글 체크박스를 체크해야만 작성이 되던 버그 수정
 
-  PostForm에 required=False를 추가하여 해결
+  *PostForm에 required=False를 추가하여 해결*
