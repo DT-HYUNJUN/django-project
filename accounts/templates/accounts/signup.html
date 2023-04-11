@@ -12,7 +12,7 @@
       {% csrf_token %}
       {% for field in form %}
       <div class="input-group mb-3">
-        <span class="input-group-text" id="{{ field.auto_id }}">{{ field.label }}</span>
+        {% comment %} <span class="input-group-text" id="{{ field.auto_id }}">{{ field.label }}</span> {% endcomment %}
         {{ field }}
       </div>
       {% endfor %}

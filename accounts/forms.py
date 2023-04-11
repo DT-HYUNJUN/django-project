@@ -5,16 +5,14 @@ from django import forms
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
-        label='유저 이름',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': '유저 이름',
+                'placeholder': '아이디',
             }
         ),
     )
     password = forms.CharField(
-        label='비밀번호',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -55,11 +53,10 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             }
         ),
     )
-    
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
-        label='유저 이름',
+        label='아이디',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -175,11 +172,35 @@ class CustomUserChangeForm(UserChangeForm):
             }
         ),
     )
+
+    image = forms.ImageField(
+        label='사진',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+            }
+        ),
+    )
     
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('email', 'first_name', 'last_name', 'birthday')
+        fields = ('email', 'first_name', 'last_name', 'birthday', 'image')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields.pop('password')
+
+
+class CustomUserImageForm(forms.ModelForm):
+    image = forms.ImageField(
+        label='사진',
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control-file',
+            }
+        ),
+    )
+
+    class Meta:
+        model = get_user_model()
+        fields = ('image',)

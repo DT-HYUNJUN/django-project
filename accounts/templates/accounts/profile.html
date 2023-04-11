@@ -13,13 +13,24 @@
   #detail {
     width: 40rem;
   }
+  #profile-image {
+    font-size: 5rem;
+  }
 {% endblock style %}
 
 {% block content %}
 <div class='d-flex flex-column align-items-center mt-5'>
   <div class="mb-5">
     <div id="profile-img" class="border rounded-circle position-relative">
-      <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_star-forming_region_carina_nircam_final-5mb.jpg" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
+      <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        {% if user.image %}
+        <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
+        {% else %}
+        <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
+          <i id="profile-image" class="bi bi-person"></i>
+        </div>
+        {% endif %}
+      </button>
     </div>
   </div>
 
@@ -28,6 +39,7 @@
       <div>
         <a class="dropdown-item" href="{% url 'accounts:update' %}">
           <div class="d-flex align-items-center">
+            
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
               <i class="bi bi-pencil-square"></i>
             </svg>
@@ -82,6 +94,28 @@
     </table>
   </div>
 
-    
-
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">프로필 이미지</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="modal-body">
+            <form action="{% url 'accounts:image_upload' user.pk %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="image">사진</label>
+                <input type="file" class="form-control" id="image" name="image">
+                <input class="btn btn-primary" type="submit" value="제출">
+              </div>
+            </form>
+            <div class="d-grid">
+              <a class="btn btn-danger" href="{% url 'accounts:image_delete' user.pk %}">삭제</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock content %}  

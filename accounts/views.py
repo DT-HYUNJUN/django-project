@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomPasswordChangeForm, CustomAuthenticationForm
-# from django.contrib.auth.forms import AuthenticationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomPasswordChangeForm, CustomAuthenticationForm, CustomUserImageForm
+from .models import User
 from django.contrib.auth import login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +20,8 @@ def login(request):
             else:
                 url = 'posts:index'
             return redirect(url)
+        else:
+            print('login failed')
     else:
         form = CustomAuthenticationForm()
     context = {
@@ -57,10 +59,10 @@ def signup(request):
 @login_required
 def update(request):
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('posts:index')
+            return redirect('posts:profile')
     else:
         form = CustomUserChangeForm(instance= request.user)
     context = {
@@ -97,5 +99,22 @@ def change_password(request):
 # 프로필
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    form = CustomUserChangeForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/profile.html', context)
 
+
+def image_upload(request, user_pk):
+    form = CustomUserImageForm(request.POST, request.FILES, instance=request.user)
+    if form.is_valid():
+        form.save()
+        return redirect('accounts:profile')
+
+
+def image_delete(request, user_pk):
+    user = User.objects.get(pk=user_pk)
+    user.image = None
+    user.save()
+    return redirect('accounts:profile')
