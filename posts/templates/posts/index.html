@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
 
-{% block style %}
-#head > span {
-  font-weight: bold;
-}
-{% endblock style %}
-
 {% block content %}
-
 <!-- 정렬 -->
 <form method="GET">
   <div class="d-flex justify-content-end align-items-center gap-1 mb-2">
@@ -69,15 +62,5 @@
   </div>
   {% endif %}
   {% endfor %}
-
-  <script>
-    const newElements = document.querySelectorAll('.new')
-  
-    newElements.forEach((el) => {
-      setInterval(() => {
-        el.classList.toggle('text-danger')
-      }, 800)
-    })
-  </script>
 {% endblock content %}
 

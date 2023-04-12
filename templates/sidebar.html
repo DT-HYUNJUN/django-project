@@ -6,7 +6,7 @@
   
   <ul id='sidebar'>
     <li class="mb-3 fs-5 ps-3 py-2 rounded-start-pill">
-      <a href="{% url 'posts:create' %}">
+      <a href="{% url 'posts:create' %}" data-subject="글 작성">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-plus-square"></i>
           <span>글 작성</span>
@@ -14,7 +14,7 @@
       </a>
     </li>
     <li class="mb-3 fs-5 ps-3 py-2 rounded-start-pill">
-      <a href="{% url 'posts:index' %}">
+      <a href="{% url 'posts:index' %}" data-subject="모든 글">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-file-earmark"></i>
           <span>모든 글</span>
@@ -22,7 +22,7 @@
       </a>
     </li>
     <li class="mb-3 fs-5 ps-3 py-2 rounded-start-pill">
-      <a href="{% url 'posts:category' '개발' %}">
+      <a href="{% url 'posts:category' '개발' %}" data-subject="개발">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-code-slash"></i>
           <span>개발</span>
@@ -30,7 +30,7 @@
       </a>
     </li>
     <li class="mb-3 fs-5 ps-3 py-2 rounded-start-pill">
-      <a href="{% url 'posts:category' 'CS' %}">
+      <a href="{% url 'posts:category' 'CS' %}" data-subject="CS">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-motherboard"></i>
           <span>CS</span>
@@ -38,7 +38,7 @@
       </a>
     </li>
     <li class="mb-3 fs-5 ps-3 py-2 rounded-start-pill">
-      <a href="{% url 'posts:category' '신기술' %}">
+      <a href="{% url 'posts:category' '신기술' %}" data-subject="신기술">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-lightbulb"></i>
           <span>신기술</span>
@@ -47,3 +47,14 @@
     </li>
   </ul>
 </div>
+
+<script>
+  const links = document.querySelectorAll("#sidebar li")    
+  links.forEach((link) => {
+    console.log(link)
+    const liText = link.querySelector('#sidebar span')
+    if (liText.textContent === '{{ subject }}') {
+      link.classList.add("bg-white")
+    }
+  })
+</script>

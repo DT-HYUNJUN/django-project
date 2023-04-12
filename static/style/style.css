@@ -1,0 +1,68 @@
+body {
+  font-family: 'NanumSquareAcb';
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+
+.index {
+  padding-left: 30rem;
+  padding-right: 15rem;
+  padding-top: 5rem;
+}
+
+@media (max-width: 1750px) {
+  .index {
+    padding-left: 20rem;
+    padding-right: 5rem;
+    padding-top: 5rem;
+  }
+}
+
+
+.sidebar {
+  padding-top: 5rem;
+  width: 15rem;
+  position: fixed;
+  z-index: 50;
+  height: 100vh;
+}
+
+li {
+  list-style-type: none;
+}
+
+/* signup.html */
+#signup {
+  margin-top: 10rem;
+}
+
+/* login.html */
+#login {
+  margin-top: 10rem;
+}
+
+/* profile.html */
+#profile-img {
+  width: 10rem;
+  height: 10rem;
+}
+img {
+  width: auto;
+  height: auto;
+  object-fit: cover;
+}
+#detail {
+  width: 40rem;
+}
+#profile-image {
+  font-size: 5rem;
+}
+
+/* index.html */
+#head > span {
+  font-weight: bold;
+}

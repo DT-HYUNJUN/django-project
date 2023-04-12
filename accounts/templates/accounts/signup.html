@@ -1,11 +1,5 @@
 {% extends 'base.html' %}
 
-{% block style %}
-#signup {
-  margin-top: 10rem;
-}
-{% endblock style %}
-
 {% block content %}
   <div id="signup" class="d-flex justify-content-center">
     <form action="{% url 'accounts:signup' %}" method="POST">

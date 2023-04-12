@@ -56,7 +56,7 @@ def new_posts(posts):
     now = timezone.now()
     for post in posts:
         time_diff = now - post.created_at
-        if time_diff < timezone.timedelta(seconds=10):
+        if time_diff < timezone.timedelta(minutes=30):
             post.is_new = True
         else:
             post.is_new = False
