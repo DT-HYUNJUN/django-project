@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 CATEGORY_CHOICES = [
     ('개발', '개발'),
@@ -50,3 +50,17 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('notice', 'title', 'content', 'category')
+
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '댓글을 남겨보세요',
+            }
+        )
+    )
+    class Meta:
+        model = Comment
+        fields = '__all__'

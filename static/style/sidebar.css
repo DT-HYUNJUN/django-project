@@ -1,0 +1,7 @@
+.sidebar-style {
+  padding-top: 5rem;
+  width: 15rem;
+  position: fixed;
+  z-index: 50;
+  height: 100vh;
+}

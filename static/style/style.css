@@ -7,8 +7,7 @@ a {
   color: black;
 }
 
-
-.index {
+.body-index {
   padding-left: 30rem;
   padding-right: 15rem;
   padding-top: 5rem;
@@ -20,15 +19,6 @@ a {
     padding-right: 5rem;
     padding-top: 5rem;
   }
-}
-
-
-.sidebar {
-  padding-top: 5rem;
-  width: 15rem;
-  position: fixed;
-  z-index: 50;
-  height: 100vh;
 }
 
 li {

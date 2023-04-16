@@ -1,4 +1,7 @@
-<div class="sidebar bg-body-secondary ps-3">
+{% load static %}
+<link rel="stylesheet" href="{% static 'style/sidebar.css' %}">
+
+<div class="sidebar-style bg-body-secondary ps-3">
   <div class="text-center">
     <span class="fs-3"><a href="{% url 'posts:index' %}">IT 정보 공유</a></span>
     <hr>

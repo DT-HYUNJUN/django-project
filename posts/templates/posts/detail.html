@@ -10,11 +10,22 @@
       <div class="mb-3 d-flex align-items-center gap-2">
         {% if post.notice %}
         <div><a class="rounded-3 border border-danger p-1 text-danger bg-danger-subtle" href="{% url 'posts:category' post.category %}">공지</a></div>
-        {% else %}
         {% endif %}
         <a href="{% url 'posts:category' post.category %}" class="text-success fw-bold">{{ post.category }}</a>
       </div>
       <h2>{{ post.title }}</h2>
+      <div id="profile-img" class="border rounded-circle position-relative">
+        <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          {% if user.image %}
+          <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 1rem; height: 1rem;">
+          {% else %}
+          <div class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 1rem; height: 1rem;">
+            <i id="profile-image" class="bi bi-person"></i>
+          </div>
+          {% endif %}
+        </button>
+      </div>
+      <span>{{ post.user }}</span>
       <hr>
       {{ post.content|linebreaksbr }}
     </div>
