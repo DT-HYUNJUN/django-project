@@ -19,6 +19,7 @@
   <span class="col-1 text-center">작성자</span>
   <span class="col-1 text-end">작성일</span>
 </div>
+<div>
   <!--공지 글-->
   {% for post in posts %}
     {% if post.notice %}
@@ -27,18 +28,18 @@
       <div class="col-1"><a class="rounded-3 border border-danger p-1 text-danger bg-danger-subtle" href="{% url 'posts:category' post.category %}">공지</a></div>
       <!-- 제목 9 -->
       <div class="col-9">
-        <span class="me-1"><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></span>
+        <span class="me-1 text-truncate"><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></span>
         {% if post.is_new %}
         <span class="new">new</span>
         {% endif %}
       </div>
       <!-- 작성자 1 -->
-      <span class="col-1">{{ post.user }}</span>
+      <span class="col-1 text-truncate">{{ post.user }}</span>
       {% now "Y-m-d" as today %}
       {% if today == post.created_at|date:'Y-m-d' %}
       <span class="col-1 text-end">{{ post.created_at|date:'H:i' }}</span>
       {% else %}
-      <span class="col-2 text-end">{{ post.created_at|date:'Y-m-d' }}</span>
+      <span class="col-1 text-end">{{ post.created_at|date:'Y-m-d' }}</span>
       {% endif %}
     </div>
     {% endif %}
@@ -50,20 +51,21 @@
     <div class="row py-2 border-top border-bottom">
       <span class="col-1"><a class="rounded-3 border border-white p-1 bg-transparent" href="{% url 'posts:category' post.category %}">{{ post.category }}</a></span>
       <div class="col-9">
-        <span class="me-1"><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></span>
+        <span class="me-1 text-truncate"><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></span>
         {% if post.is_new %}
         <span class="new">new</span>
         {% endif %}
       </div>
-      <span class="col-1">{{ post.user }}</span>
+      <span class="col-1 text-truncate">{{ post.user }}</span>
       {% now "Y-m-d" as today %}
       {% if today == post.created_at|date:'Y-m-d' %}
       <span class="col-1 text-end">{{ post.created_at|date:'H:i' }}</span>
       {% else %}
-      <span class="col-2 text-end">{{ post.created_at|date:'Y-m-d' }}</span>
+      <span class="col-1 text-end">{{ post.created_at|date:'Y-m-d' }}</span>
       {% endif %}
   </div>
   {% endif %}
   {% endfor %}
+</div>
 {% endblock content %}
 

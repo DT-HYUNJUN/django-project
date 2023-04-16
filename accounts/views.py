@@ -98,9 +98,11 @@ def change_password(request):
 
 # 프로필
 @login_required
-def profile(request):
+def profile(request, user_pk):
+    user = User.objects.get(pk=user_pk)
     form = CustomUserChangeForm()
     context = {
+        'user': user,
         'form': form,
     }
     return render(request, 'accounts/profile.html', context)

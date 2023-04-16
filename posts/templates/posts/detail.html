@@ -2,11 +2,17 @@
 
 {% block content %}
   <div>
-    <div class="mb-1">
-      <a class="btn btn-secondary btn-sm" href="{% url 'posts:update' post.pk %}">수정</a>
-      <a class="btn btn-secondary btn-sm" href="{% url 'posts:delete' post.pk %}">삭제</a>
+    <!-- 수정 / 삭제 -->
+    <div class="mb-1 d-flex justify-content-between">
+      <div>
+        <a class="btn btn-secondary btn-sm" href="{% url 'posts:update' post.pk %}">수정</a>
+        <a class="btn btn-secondary btn-sm" href="{% url 'posts:delete' post.pk %}">삭제</a>
+      </div>
+      <a class="btn btn-secondary btn-sm" href="{% url 'posts:index' %}">목록</a>
     </div>
+    <!-- 글 -->
     <div class="border rounded-3 p-3 mb-1">
+      <!-- 분류 -->
       <div class="mb-3 d-flex align-items-center gap-2">
         {% if post.notice %}
         <div><a class="rounded-3 border border-danger p-1 text-danger bg-danger-subtle" href="{% url 'posts:category' post.category %}">공지</a></div>
@@ -14,21 +20,31 @@
         <a href="{% url 'posts:category' post.category %}" class="text-success fw-bold">{{ post.category }}</a>
       </div>
       <h2>{{ post.title }}</h2>
-      <div id="profile-img" class="border rounded-circle position-relative">
-        <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          {% if user.image %}
-          <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 1rem; height: 1rem;">
+      <!-- 작성자 / 제목 -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="border rounded-circle position-relative" style="width: 2rem; height: 2rem;">
+          {% if post.user.image %}  
+          <a href="{% url 'accounts:profile' post.user.pk %}">
+            <img src="{{ post.user.image.url }}" alt="" class="rounded-circle" style="width: 2rem; height: 2rem;">
+          </a>
           {% else %}
-          <div class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 1rem; height: 1rem;">
-            <i id="profile-image" class="bi bi-person"></i>
-          </div>
+          <a href="{% url 'accounts:profile' post.user.pk %}">
+            <div class="position-absolute top-50 start-50 translate-middle">
+              <i class="bi bi-person" style="width: 2rem; height: 2rem;"></i>
+            </div>
+          </a>
           {% endif %}
-        </button>
+        </div>
+        <div class="d-flex flex-column">
+          <a href="{% url 'accounts:profile' post.user.pk %}">
+            <span>{{ post.user }}</span>
+          </a>
+          <span class="post-created text-secondary">{{ post.created_at|date:'Y. m. d.  H:i' }}</span>
+        </div>
       </div>
-      <span>{{ post.user }}</span>
+      
       <hr>
       {{ post.content|linebreaksbr }}
     </div>
-      <a class="btn btn-secondary btn-sm" href="{% url 'posts:index' %}">목록</a>
   </div>
 {% endblock content %}
