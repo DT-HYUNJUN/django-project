@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from datetime import datetime
 
 # Create your views here.
@@ -86,7 +86,11 @@ def create(request):
 @login_required
 def detail(request, post_pk):
     post = Post.objects.get(pk=post_pk)
+    comment_form = CommentForm()
+    comments = post.comment_set.all()
     context = {
+        'comments': comments,
+        'comment_form': comment_form,
         'post': post,
     }
     return render(request, 'posts/detail.html', context)
@@ -115,3 +119,19 @@ def delete(request, post_pk):
     post.delete()
     return redirect('posts:index')
 
+
+@login_required
+def comment_create(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.post = post
+        comment.user = request.user
+        comment.save()
+        return redirect('posts:detail', post_pk)
+    # context = { 
+    #     'comment_form': comment_form,
+    #     'post': post,
+    # }
+    # return render(request, 'posts/detail.html', context)

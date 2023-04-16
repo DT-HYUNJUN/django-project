@@ -46,5 +46,20 @@
       <hr>
       {{ post.content|linebreaksbr }}
     </div>
+    <!-- 댓글 -->
+    <div>
+      <form action="{% url 'posts:comment_create' post.pk  %}" method="POST">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          {% for field in comment_form %}
+            {{ field }}
+          {% endfor %}
+          <button class="btn btn-primary">작성</button>
+        </div>
+      </form>
+      {% for comment in comments %}
+        {{ comment.user }} - {{ comment }}
+      {% endfor %}
+    </div>
   </div>
 {% endblock content %}

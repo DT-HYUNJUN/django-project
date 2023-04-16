@@ -59,8 +59,8 @@ class CommentForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': '댓글을 남겨보세요',
             }
-        )
+        ),
     )
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ('content',)
