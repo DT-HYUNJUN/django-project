@@ -54,7 +54,6 @@
 <script>
   const links = document.querySelectorAll("#sidebar li")    
   links.forEach((link) => {
-    console.log(link)
     const liText = link.querySelector('#sidebar span')
     if (liText.textContent === '{{ subject }}') {
       link.classList.add("bg-white")

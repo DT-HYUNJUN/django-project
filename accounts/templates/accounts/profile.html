@@ -3,8 +3,9 @@
 {% block content %}
 <div class='d-flex flex-column align-items-center mt-5'>
   <div class="mb-5">
-    <div id="profile-img" class="border rounded-circle position-relative">
-      <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    {% if user == request.user %}
+    <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <div id="profile-img" class="border rounded-circle position-relative">
         {% if user.image %}
         <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
         {% else %}
@@ -12,8 +13,21 @@
           <i id="profile-image" class="bi bi-person"></i>
         </div>
         {% endif %}
-      </button>
+      </div>
+    </button>
+    {% else %}
+    <div class="border-0 bg-transparent">
+      <div id="profile-img" class="border rounded-circle position-relative">
+        {% if user.image %}
+        <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
+        {% else %}
+        <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
+          <i id="profile-image" class="bi bi-person"></i>
+        </div>
+        {% endif %}
+      </div>
     </div>
+    {% endif %}
   </div>
 
   <div>

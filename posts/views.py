@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import Post
+from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from datetime import datetime
 
@@ -130,8 +130,10 @@ def comment_create(request, post_pk):
         comment.user = request.user
         comment.save()
         return redirect('posts:detail', post_pk)
-    # context = { 
-    #     'comment_form': comment_form,
-    #     'post': post,
-    # }
-    # return render(request, 'posts/detail.html', context)
+
+
+def comments_delete(request, post_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.user == comment.user:
+        comment.delete()
+    return redirect('posts:detail', post_pk)
