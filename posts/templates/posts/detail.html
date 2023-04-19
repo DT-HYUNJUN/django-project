@@ -22,15 +22,15 @@
       <h3>{{ post.title }}</h3>
       <!-- 작성자 / 제목 -->
       <div class="d-flex align-items-center gap-2">
-        <div class="border rounded-circle position-relative" style="width: 2.5rem; height: 2.5rem;">
+        <div class="border rounded-circle position-relative profile-img-sm">
           {% if post.user.image %}
           <a href="{% url 'accounts:profile' post.user.pk %}">
-            <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle" style="width: 2.5rem; height: 2.5rem;">
+            <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle profile-img-sm">
           </a>
           {% else %}
           <a href="{% url 'accounts:profile' post.user.pk %}">
             <div class="position-absolute top-50 start-50 translate-middle">
-              <i class="bi bi-person" style="width: 2.5rem; height: 2.5rem;"></i>
+              <i class="bi bi-person profile-img-sm"></i>
             </div>
           </a>
           {% endif %}
