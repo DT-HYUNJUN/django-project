@@ -56,8 +56,11 @@ class CommentForm(forms.ModelForm):
     content = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
+                'id': 'comment-input',
+                'class': 'border-0 w-100' ,
                 'placeholder': '댓글을 남겨보세요',
+                'autofocus': '',
+                'autocomplete': 'off',
             }
         ),
     )

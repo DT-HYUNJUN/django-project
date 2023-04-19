@@ -11,8 +11,23 @@
     <div class="d-flex align-items-center gap-2">
       {% if request.user.is_authenticated %}
       <div class="dropdown">
-        <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{ request.user }}
+        <button class="border-0 bg-transparent dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="d-flex align-items-center gap-1">
+            <!--이미지-->
+            <div class="border rounded-circle position-relative profile-img-nav">
+              {% if user.image %}
+              <img src="{{ user.image.url }}" alt="{{ user.username }}" class="rounded-circle profile-img-nav">
+              {% else %}
+              <div class="position-absolute top-50 start-50 translate-middle">
+                <i class="bi bi-person profile-img-nav"></i>
+              </div>
+              {% endif %}
+            </div>
+            <!--이름-->
+            <div>
+              {{ request.user }}
+            </div>
+          </div>
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="{% url 'accounts:profile' user.pk %}">내 프로필</a></li>

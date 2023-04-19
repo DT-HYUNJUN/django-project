@@ -50,15 +50,15 @@
       <br>
       <div>
         <div class="d-flex align-items-center gap-2 mb-2">
-          <div class="border rounded-circle position-relative" style="width: 2.5rem; height: 2.5rem;">
+          <div class="border rounded-circle position-relative profile-img-sm">
             {% if post.user.image %}
             <a href="{% url 'accounts:profile' post.user.pk %}">
-              <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle" style="width: 2.5rem; height: 2.5rem;">
+              <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle profile-img-sm">
             </a>
             {% else %}
             <a href="{% url 'accounts:profile' post.user.pk %}">
               <div class="position-absolute top-50 start-50 translate-middle">
-                <i class="bi bi-person" style="width: 2.5rem; height: 2.5rem;"></i>
+                <i class="bi bi-person profile-img-sm"></i>
               </div>
             </a>
             {% endif %}
@@ -78,57 +78,70 @@
       <hr class="mt-1">
 
       <p class="mb-3">댓글</p>
-      {% for comment in comments %}
-      <div id="comments">
-        {% if request.user == comment.user %}
-        <div class="d-flex justify-content-between bg-body-secondary">
-        {% else %}
-        <div class="d-flex justify-content-between">
-        {% endif %}
-          <div class="d-flex align-items-start gap-2">
-            <div class="border rounded-circle position-relative mt-1" style="width: 2.5rem; height: 2.5rem;">
-              {% if comment.user.image %}
-              <a href="{% url 'accounts:profile' comment.user.pk %}">
-                <img src="{{ comment.user.image.url }}" alt="{{ comment.user }}" class="rounded-circle" style="width: 2.5rem; height: 2.5rem;">
-              </a>
-              {% else %}
-              <a href="{% url 'accounts:profile' comment.user.pk %}">
-                <div class="position-absolute top-50 start-50 translate-middle">
-                  <i class="bi bi-person" style="width: 2.5rem; height: 2.5rem;"></i>
-                </div>
-              </a>
-              {% endif %}
-            </div>
-            <div>
-              <a href="{% url 'accounts:profile' comment.user.pk %}">
-                <span>{{ comment.user }}</span>
-              </a>
-              <p class="m-0">{{ comment }}</p>
-              <p class="post-created text-secondary mt-2 mb-0">{{ post.created_at|date:'Y. m. d.  H:i' }}</p>
-            </div>
-          </div>
-          <div class="text-secondary">
-            {% if comment.user == request.user %}
-            <form action="{% url 'posts:comments_delete' post.pk comment.pk %}" method="POST">
-              {% csrf_token %}
-              <button  class="bg-transparent border-0 text-danger" type="submit">
-                <div id="comment_delete" class="hidden"><i class="bi bi-x"></i></div>
-              </button>
-            </form>
+
+      <table class="table">
+        <tbody>
+          {% for comment in comments %}
+            {% if request.user == comment.user %}
+              <tr id="comments" class="bg-body-tertiary">
+            {% else %}
+              <tr id="comments">
             {% endif %}
-          </div>
-        </div>
-      </div>
-      <hr class="border-dark-subtle">
-      {% endfor %}
-      <!-- 댓글 -->
+                <td>
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-start gap-2">
+                      <!-- 프로필 사진 -->
+                      <div class="border rounded-circle position-relative mt-1 profile-img-sm">
+                        {% if comment.user.image %}
+                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                          <img src="{{ comment.user.image.url }}" alt="{{ comment.user }}" class="rounded-circle profile-img-sm">
+                        </a>
+                        {% else %}
+                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                          <div class="position-absolute top-50 start-50 translate-middle">
+                            <i class="bi bi-person profile-img-sm"></i>
+                          </div>
+                        </a>
+                        {% endif %}
+                      </div>
+                      <!-- 작성자 / 내용 -->
+                      <div>
+                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                          <span>{{ comment.user }}</span>
+                        </a>
+                        <p class="m-0">{{ comment }}</p>
+                        <p class="post-created text-secondary mt-2 mb-0">{{ post.created_at|date:'Y. m. d.  H:i' }}</p>
+                      </div>
+                    </div>
+                    <!-- 삭제 버튼 -->
+                    <div class="text-secondary">
+                      {% if comment.user == request.user %}
+                      <form action="{% url 'posts:comments_delete' post.pk comment.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button  class="bg-transparent border-0 text-danger" type="submit">
+                          <div id="comment_delete" class="hidden"><i class="bi bi-x"></i></div>
+                        </button>
+                      </form>
+                      {% endif %}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- 댓글 작성란 -->
       <form action="{% url 'posts:comment_create' post.pk  %}" method="POST">
         {% csrf_token %}
-        <div class="input-group mb-3">
+        <div class="border rounded-3 p-3">
+          <div class="mb-2">{{ user.username }}</div>
           {% for field in comment_form %}
             {{ field }}
           {% endfor %}
-          <button class="btn btn-primary">작성</button>
+          <div class="text-end">
+            <button type="submit" class="border-0 bg-transparent text-body-tertiary">등록</button>
+          </div>
         </div>
       </form>
     </div>

@@ -14,3 +14,11 @@
 .hidden {
   color: transparent;
 }
+
+#comment-input {
+  outline: none;
+}
+
+#comment-input::placeholder {
+  color: lightgray;
+}
