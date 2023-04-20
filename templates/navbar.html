@@ -30,7 +30,7 @@
           </div>
         </button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="{% url 'accounts:profile' user.pk %}">내 프로필</a></li>
+          <li><a class="dropdown-item" href="{% url 'accounts:profile' user %}">내 프로필</a></li>
           <li><a class="dropdown-item" href="{% url 'accounts:update' %}">프로필 편집</a></li>
           <li>
             <form action="{% url 'accounts:logout' %}" method="POST">

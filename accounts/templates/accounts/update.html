@@ -21,6 +21,7 @@
         </div>
         {% endfor %}
         <div class="text-end">
+          <a class="btn btn-danger" href="{% url 'accounts:profile' request.user %}">취소</a>
           <input class="btn btn-success" type="submit" value="수정">
         </div>
       </form>

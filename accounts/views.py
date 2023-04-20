@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomPasswordChangeForm, CustomAuthenticationForm, CustomUserImageForm
 from .models import User
-from django.contrib.auth import login as auth_login, logout as auth_logout, update_session_auth_hash
+from django.contrib.auth import login as auth_login, logout as auth_logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -98,16 +98,18 @@ def change_password(request):
 
 # 프로필
 @login_required
-def profile(request, user_pk):
-    user = User.objects.get(pk=user_pk)
+def profile(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
     form = CustomUserChangeForm()
     context = {
-        'user': user,
+        'person': person,
         'form': form,
     }
     return render(request, 'accounts/profile.html', context)
 
 
+@login_required
 def image_upload(request, user_pk):
     form = CustomUserImageForm(request.POST, request.FILES, instance=request.user)
     if form.is_valid():
@@ -115,8 +117,21 @@ def image_upload(request, user_pk):
         return redirect('accounts:profile')
 
 
+@login_required
 def image_delete(request, user_pk):
     user = User.objects.get(pk=user_pk)
     user.image = None
     user.save()
     return redirect('accounts:profile')
+
+
+def follow(request, user_pk):
+    User = get_user_model()
+    you = User.objects.get(pk=user_pk)
+    me = request.user
+    if you != me:
+        if you.followers.filter(pk=me.pk).exists():
+            you.followers.remove(me)
+        else:
+            you.followers.add(me)
+    return redirect('accounts:profile', you.username)

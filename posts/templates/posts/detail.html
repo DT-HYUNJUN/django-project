@@ -24,11 +24,11 @@
       <div class="d-flex align-items-center gap-2">
         <div class="border rounded-circle position-relative profile-img-sm">
           {% if post.user.image %}
-          <a href="{% url 'accounts:profile' post.user.pk %}">
+          <a href="{% url 'accounts:profile' post.user.username %}">
             <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle profile-img-sm">
           </a>
           {% else %}
-          <a href="{% url 'accounts:profile' post.user.pk %}">
+          <a href="{% url 'accounts:profile' post.user.username %}">
             <div class="position-absolute top-50 start-50 translate-middle">
               <i class="bi bi-person profile-img-sm"></i>
             </div>
@@ -36,7 +36,7 @@
           {% endif %}
         </div>
         <div class="d-flex flex-column">
-          <a href="{% url 'accounts:profile' post.user.pk %}">
+          <a href="{% url 'accounts:profile' post.user.username %}">
             <span>{{ post.user }}</span>
           </a>
           <span class="post-created text-secondary">{{ post.created_at|date:'Y. m. d.  H:i' }}</span>
@@ -52,11 +52,11 @@
         <div class="d-flex align-items-center gap-2 mb-2">
           <div class="border rounded-circle position-relative profile-img-sm">
             {% if post.user.image %}
-            <a href="{% url 'accounts:profile' post.user.pk %}">
+            <a href="{% url 'accounts:profile' post.user.username %}">
               <img src="{{ post.user.image.url }}" alt="{{ post.user }}" class="rounded-circle profile-img-sm">
             </a>
             {% else %}
-            <a href="{% url 'accounts:profile' post.user.pk %}">
+            <a href="{% url 'accounts:profile' post.user.username %}">
               <div class="position-absolute top-50 start-50 translate-middle">
                 <i class="bi bi-person profile-img-sm"></i>
               </div>
@@ -64,7 +64,7 @@
             {% endif %}
           </div>
           <div class="d-flex flex-column">
-            <a href="{% url 'accounts:profile' post.user.pk %}">
+            <a href="{% url 'accounts:profile' post.user.username %}">
               <span>{{ post.user }}</span>
               <span class="comment-content">님의 게시물 더보기</span>
             </a>
@@ -93,11 +93,11 @@
                       <!-- 프로필 사진 -->
                       <div class="border rounded-circle position-relative mt-1 profile-img-sm">
                         {% if comment.user.image %}
-                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                        <a href="{% url 'accounts:profile' comment.user.username %}">
                           <img src="{{ comment.user.image.url }}" alt="{{ comment.user }}" class="rounded-circle profile-img-sm">
                         </a>
                         {% else %}
-                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                        <a href="{% url 'accounts:profile' comment.user.username %}">
                           <div class="position-absolute top-50 start-50 translate-middle">
                             <i class="bi bi-person profile-img-sm"></i>
                           </div>
@@ -106,7 +106,7 @@
                       </div>
                       <!-- 작성자 / 내용 -->
                       <div>
-                        <a href="{% url 'accounts:profile' comment.user.pk %}">
+                        <a href="{% url 'accounts:profile' comment.user.username %}">
                           <span>{{ comment.user }}</span>
                         </a>
                         <p class="m-0">{{ comment }}</p>

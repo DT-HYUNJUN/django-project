@@ -2,36 +2,54 @@
 
 {% block content %}
 <div class='d-flex flex-column align-items-center mt-5'>
-  <div class="mb-5">
-    {% if user == request.user %}
-    <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      <div id="profile-img" class="border rounded-circle position-relative">
-        {% if user.image %}
-        <img src="{{ user.image.url }}" alt="{{ user.username }}" class="rounded-circle position-absolute top-50 start-50 translate-middle profile-img">
-        {% else %}
-        <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
-          <i id="profile-image" class="bi bi-person"></i>
-        </div>
-        {% endif %}
-      </div>
-    </button>
-    {% else %}
-    <div class="border-0 bg-transparent">
-      <div id="profile-img" class="border rounded-circle position-relative">
-        {% if user.image %}
-        <img src="{{ user.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
-        {% else %}
-        <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
-          <i id="profile-image" class="bi bi-person"></i>
-        </div>
-        {% endif %}
-      </div>
-    </div>
-    {% endif %}
-  </div>
-
   <div>
-    {% if user == request.user %}
+    <div class="mb-3">
+      {% if person == request.user %}
+      <button type="button" class="border-0 bg-transparent" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <div id="profile-img" class="border rounded-circle position-relative">
+          {% if person.image %}
+          <img src="{{ person.image.url }}" alt="{{ person.username }}" class="rounded-circle position-absolute top-50 start-50 translate-middle profile-img">
+          {% else %}
+          <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
+            <i id="profile-image" class="bi bi-person"></i>
+          </div>
+          {% endif %}
+        </div>
+      </button>
+      {% else %}
+      <div class="border-0 bg-transparent">
+        <div id="profile-img" class="border rounded-circle position-relative">
+          {% if person.image %}
+          <img src="{{ person.image.url }}" alt="" class="rounded-circle position-absolute top-50 start-50 translate-middle" style="width: 10rem; height: 10rem;">
+          {% else %}
+          <div class="rounded-circle position-absolute top-50 start-50 translate-middle">
+            <i id="profile-image" class="bi bi-person"></i>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% if request.user != person %}
+    <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+      {% csrf_token %}
+      {% if request.user in person.followers.all %}
+      <input class="btn btn-sm btn-secondary w-100" type="submit" value="팔로잉">
+      {% else %}  
+      <input class="btn btn-sm btn-primary w-100" type="submit" value="팔로우">
+      {% endif %}
+    </form>
+    {% else %}
+    <a class="btn btn-sm btn-secondary w-100" href="{% url 'accounts:update' %}">프로필 편집</a>
+    {% endif %}
+    <div class="d-flex gap-3 mt-3">
+      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followers">{{ person.followers.all|length }} 팔로워</button>
+      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followings">{{ person.followings.all|length }} 팔로잉</button>
+    </div>
+  </div>
+  
+  <div class="mt-5">
+    {% if person == request.user %}
     <div class="d-flex justify-content-end">
       <a href="{% url 'accounts:update' %}">
         <div class="d-flex align-items-center">
@@ -49,40 +67,42 @@
       <tbody>
         <tr>
           <th scope="row">유저 이름</th>
-          <td>{{ user.username }}</td>
+          <td>{{ person.username }}</td>
         </tr>
         <tr>
           <th scope="row">이메일</th>
-          <td>{{ user.email }}</td>
+          <td>{{ person.email }}</td>
         </tr>
         <tr>
           <th scope="row">성</th>
-          <td>{{ user.last_name }}</td>
+          <td>{{ person.last_name }}</td>
         </tr>
         <tr>
           <th scope="row">이름</th>
-          <td>{{ user.first_name }}</td>
+          <td>{{ person.first_name }}</td>
         </tr>
         <tr>
           <th scope="row">생년월일</th>
-          <td>{{ user.birthday }}</td>
+          <td>{{ person.birthday }}</td>
         </tr>
         <tr>
           <th scope="row">마지막 로그인</th>
-          <td>{{ user.last_login }}</td>
+          <td>{{ person.last_login }}</td>
         </tr>
         <tr>
           <th scope="row">가입일</th>
-          <td>{{ user.date_joined }}</td>
+          <td>{{ person.date_joined }}</td>
         </tr>
         <tr>
           <td class="border-0"></td>
           <td class="border-0">
             <div class="text-end">
+              {% if user == person %}
               <form action="{% url 'accounts:delete' %}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">회원탈퇴</button>
               </form>
+              {% endif %}
             </div>
           </td>
         </tr>
@@ -111,6 +131,41 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 팔로워 -->
+  <div class="modal fade" id="followers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">팔로워</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% for follower in person.followers.all %}
+            {{ follower.username }}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 팔로잉 -->
+  <div class="modal fade" id="followings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">팔로잉</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% for following in person.followings.all %}
+            {{ following.username }}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
