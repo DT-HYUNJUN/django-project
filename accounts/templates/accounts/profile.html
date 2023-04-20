@@ -31,7 +31,7 @@
       {% endif %}
     </div>
     {% if request.user != person %}
-    <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+    <form id="follow-form" data-user-id="{{ person.pk }}">
       {% csrf_token %}
       {% if request.user in person.followers.all %}
       <input class="btn btn-sm btn-secondary w-100" type="submit" value="팔로잉">
@@ -43,26 +43,16 @@
     <a class="btn btn-sm btn-secondary w-100" href="{% url 'accounts:update' %}">프로필 편집</a>
     {% endif %}
     <div class="d-flex gap-3 mt-3">
-      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followers">{{ person.followers.all|length }} 팔로워</button>
-      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followings">{{ person.followings.all|length }} 팔로잉</button>
+      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followers">
+        팔로워 <span id="followers-count">{{ person.followers.all|length }}</span>
+      </button>
+      <button type="button" class="border-0 bg-transparent w-50" data-bs-toggle="modal" data-bs-target="#followings">
+        팔로잉 <span id="followings-count">{{ person.followings.all|length }}</span>
+      </button>
     </div>
   </div>
   
   <div class="mt-5">
-    {% if person == request.user %}
-    <div class="d-flex justify-content-end">
-      <a href="{% url 'accounts:update' %}">
-        <div class="d-flex align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-            <i class="bi bi-pencil-square"></i>
-          </svg>
-          <span>프로필 편집</span>
-        </div>
-      </a>
-    </div>
-    {% else %}
-    {% endif %}
-
     <table id="detail" class="table">    
       <tbody>
         <tr>
@@ -135,7 +125,7 @@
     </div>
   </div>
 
-  <!-- 팔로워 -->
+  {% comment %} <!-- 팔로워 -->
   <div class="modal fade" id="followers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -146,7 +136,38 @@
         </div>
         <div class="modal-body">
           {% for follower in person.followers.all %}
-            {{ follower.username }}
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <!--팔로워 프로필 이미지-->
+            <div class="d-flex align-items-center gap-2">
+              <div class="border rounded-circle position-relative profile-img-sm">
+                {% if follower.image %}
+                <a href="{% url 'accounts:profile' follower %}">
+                  <img src="{{ follower.image.url }}" alt="{{ follower.username }}" class="rounded-circle profile-img-sm">
+                </a>
+                {% else %}
+                <a href="{% url 'accounts:profile' follower %}">
+                  <div class="position-absolute top-50 start-50 translate-middle">
+                    <i class="bi bi-person profile-img-sm"></i>
+                  </div>
+                </a>
+                {% endif %}
+              </div>
+              <!--팔로워 이름-->
+              <div class="d-flex flex-column">
+                <a href="{% url 'accounts:profile' follower %}">{{ follower }}</a>
+              </div>
+            </div>
+            {% if request.user != follower %}
+            <form id="follow-form" data-user-id="{{ follower.pk }}">
+              {% csrf_token %}
+              {% if request.user in person.followers.all %}
+              <input class="btn btn-sm btn-secondary w-100" type="submit" value="팔로잉">
+              {% else %}  
+              <input class="btn btn-sm btn-primary w-100" type="submit" value="팔로우">
+              {% endif %}
+            </form>
+            {% endif %}
+          </div>
           {% endfor %}
         </div>
       </div>
@@ -168,5 +189,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
 {% endblock content %}  
